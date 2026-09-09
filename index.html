@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#0a2e1a" />
+<meta name="description" content="Turn a natural-language prompt into a Spotify playlist." />
+
+<!-- iOS "Add to Home Screen" standalone-app behavior -->
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="AI Playlist" />
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+
+<link rel="icon" href="icons/icon-192.png" />
+<link rel="manifest" href="manifest.json" />
+
+<title>Spotify AI Playlist</title>
+<link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Spotify AI Playlist</h1>
+    <div id="auth-area">
+      <button id="login-btn">Sign in with Spotify</button>
+      <button id="logout-btn" hidden>Sign out</button>
+      <button id="settings-btn" title="Settings" aria-haspopup="dialog">⚙</button>
+    </div>
+  </header>
+  <p id="auth-status"></p>
+
+  <main>
+    <section id="prompt-section" hidden>
+      <form id="prompt-form">
+        <input
+          id="prompt-input"
+          type="text"
+          placeholder="e.g. most famous Michael Jackson songs, or upbeat 80s workout mix"
+          autocomplete="off"
+          enterkeyhint="go"
+        />
+        <button type="submit" id="prompt-submit">Create playlist</button>
+      </form>
+      <p id="prompt-status"></p>
+    </section>
+
+    <section id="playlist-section" hidden>
+      <h2 id="playlist-name"></h2>
+      <p id="playback-mode-note">In-app playback: 30-second previews. Save to Spotify, or press "Play in Spotify app," to hear full tracks.</p>
+      <ol id="track-list"></ol>
+      <p id="misses-note" hidden></p>
+      <div id="save-area">
+        <button id="play-in-spotify-btn" type="button" hidden>▶ Play in Spotify app</button>
+        <button id="save-btn" type="button" hidden>Save to Spotify</button>
+        <a id="playlist-link" target="_blank" rel="noopener" hidden></a>
+      </div>
+      <p id="save-status"></p>
+    </section>
+  </main>
+
+  <div id="settings-overlay" hidden>
+    <div id="settings-panel" role="dialog" aria-labelledby="settings-title">
+      <h2 id="settings-title">Settings</h2>
+
+      <label class="settings-field">
+        Spotify Client ID
+        <input id="settings-spotify-client-id" type="text" autocomplete="off" placeholder="32-character ID from your Spotify Developer Dashboard app" />
+      </label>
+
+      <label class="settings-field">
+        Redirect URI — add this exact URL in your Spotify Dashboard app's Redirect URIs
+        <input id="settings-redirect-uri" type="text" readonly onclick="this.select()" />
+      </label>
+
+      <hr class="settings-divider" />
+
+      <label class="settings-field">
+        LLM provider
+        <select id="settings-provider">
+          <option value="claude">Claude (Anthropic API)</option>
+          <option value="local">Local (LM Studio, Ollama, etc.)</option>
+          <option value="mistral">Mistral AI (hosted API)</option>
+        </select>
+      </label>
+
+      <div id="settings-claude-fields">
+        <label class="settings-field">
+          Anthropic API key
+          <input id="settings-anthropic-key" type="password" autocomplete="off" placeholder="sk-ant-..." />
+        </label>
+      </div>
+
+      <div id="settings-local-fields">
+        <label class="settings-field">
+          Local server base URL
+          <input id="settings-local-base-url" type="text" autocomplete="off" placeholder="https://your-tunnel-url/v1" />
+        </label>
+        <label class="settings-field">
+          Model identifier
+          <input id="settings-local-model" type="text" autocomplete="off" placeholder="qwen3-8b" />
+        </label>
+      </div>
+
+      <div id="settings-mistral-fields">
+        <label class="settings-field">
+          Mistral API key
+          <input id="settings-mistral-key" type="password" autocomplete="off" placeholder="..." />
+        </label>
+        <label class="settings-field">
+          Model
+          <div class="settings-row">
+            <select id="settings-mistral-model">
+              <option value="">— load the list to choose —</option>
+            </select>
+            <button id="settings-mistral-load-btn" type="button">Load</button>
+          </div>
+        </label>
+      </div>
+
+      <p id="settings-status"></p>
+
+      <div id="settings-actions">
+        <button id="settings-cancel-btn" type="button">Cancel</button>
+        <button id="settings-save-btn" type="button">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

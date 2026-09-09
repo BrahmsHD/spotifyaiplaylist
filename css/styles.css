@@ -1,0 +1,206 @@
+:root {
+  color-scheme: dark;
+  --bg: #121212;
+  --fg: #f5f5f5;
+  --accent: #1db954;
+  --muted: #a7a7a7;
+  --card: #1e1e1e;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: calc(14px + var(--safe-top)) 16px 14px;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+h1 { font-size: 17px; margin: 0; }
+
+#auth-area { display: flex; align-items: center; gap: 8px; flex: none; }
+
+button {
+  background: var(--accent);
+  color: #04120a;
+  border: none;
+  border-radius: 999px;
+  padding: 10px 18px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  min-height: 40px;
+}
+
+button:disabled { opacity: 0.5; cursor: default; }
+
+#settings-btn {
+  background: transparent;
+  color: var(--fg);
+  border: 1px solid #333;
+  min-width: 40px;
+  padding: 10px;
+  font-size: 16px;
+}
+
+#auth-status { color: var(--muted); font-size: 13px; margin: 8px 16px 0; min-height: 16px; }
+
+main { flex: 1; overflow-y: auto; padding: 16px; padding-bottom: calc(16px + var(--safe-bottom)); -webkit-overflow-scrolling: touch; }
+
+#prompt-form { display: flex; flex-direction: column; gap: 10px; }
+
+#prompt-input {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #333;
+  background: var(--card);
+  color: var(--fg);
+  font-size: 16px; /* >=16px prevents iOS Safari auto-zoom on focus */
+}
+
+#prompt-submit { align-self: stretch; }
+
+#prompt-status { color: var(--muted); min-height: 20px; font-size: 14px; }
+
+#playlist-name { font-size: 18px; margin: 4px 0 2px; }
+
+#playback-mode-note { color: var(--muted); font-size: 13px; margin: 4px 0 14px; }
+
+#playlist-link {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 10px 20px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #04120a;
+  font-weight: 600;
+  text-decoration: none;
+}
+#playlist-link[hidden] { display: none; }
+
+#track-list { list-style: none; padding: 0; margin: 0; }
+
+.track-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #222;
+}
+
+.track-play-btn {
+  flex: none;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border-radius: 50%;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.track-play-btn-no-preview { opacity: 0.45; }
+
+.track-info { color: var(--fg); font-size: 14px; line-height: 1.3; }
+
+#misses-note { color: #e0a800; font-size: 13px; margin-top: 10px; }
+
+#save-area {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+#save-status { color: var(--muted); font-size: 13px; margin-top: 8px; }
+
+#play-in-spotify-btn {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+}
+
+/* ------------------------------------------------------------ settings --- */
+
+#settings-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 10;
+}
+#settings-overlay[hidden] { display: none; }
+
+#settings-panel {
+  background: var(--card);
+  border: 1px solid #2a2a2a;
+  border-radius: 16px 16px 0 0;
+  padding: 20px 20px calc(20px + var(--safe-bottom));
+  width: 100%;
+  max-height: 88vh;
+  overflow-y: auto;
+  box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.5);
+}
+
+@media (min-width: 560px) {
+  #settings-overlay { align-items: center; }
+  #settings-panel { width: 420px; border-radius: 16px; max-height: 80vh; }
+}
+
+#settings-panel h2 { margin: 0 0 16px; font-size: 17px; }
+
+.settings-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+
+.settings-field select,
+.settings-field input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #333;
+  background: var(--bg);
+  color: var(--fg);
+  font-size: 16px; /* prevents iOS auto-zoom */
+}
+
+#settings-status { color: var(--muted); font-size: 13px; min-height: 18px; margin: 4px 0 12px; }
+
+#settings-actions { display: flex; justify-content: flex-end; gap: 10px; }
+
+#settings-cancel-btn { background: transparent; color: var(--fg); border: 1px solid #333; }
+
+.settings-row { display: flex; gap: 8px; align-items: center; }
+.settings-row select { flex: 1; min-width: 0; }
+#settings-mistral-load-btn {
+  flex: none;
+  background: transparent;
+  color: var(--fg);
+  border: 1px solid #333;
+  padding: 10px 14px;
+  min-height: unset;
+}
+
+.settings-divider { border: none; border-top: 1px solid #2a2a2a; margin: 4px 0 16px; }
